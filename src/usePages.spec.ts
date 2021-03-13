@@ -1,13 +1,6 @@
 import { renderHook, act } from "@testing-library/react-hooks";
-import { emptyPage, splitArrayIntoThree, usePages } from "./App";
-
-describe("emptyPage", () => {
-  it("空ページを生成", () => {
-    const page = emptyPage();
-    expect(page.lines).toStrictEqual([]);
-    expect(page.redoableLines).toStrictEqual([]);
-  });
-});
+import { emptyPage } from "./pages";
+import { splitArrayIntoThree, usePages } from "./usePages";
 
 describe("splitArrayIntoThree", () => {
   it("範囲内のインデックスを指定すると配列を分割する", () => {
