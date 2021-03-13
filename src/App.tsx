@@ -9,6 +9,10 @@ type Page = {
   redoableLines: Line[];
 };
 
+function emptyPage(): Page {
+  return { lines: [], redoableLines: [] };
+}
+
 function splitArrayIntoThree<T>(index: number, array: T[]): [T[], T, T[]] {
   const prevArray = index > 0 ? [...array].slice(0, index) : [];
   const [item, ...nextArray] = [...array].splice(index);
@@ -16,9 +20,7 @@ function splitArrayIntoThree<T>(index: number, array: T[]): [T[], T, T[]] {
 }
 
 function usePages() {
-  const [pages, setPages] = useState<Page[]>([
-    { lines: [], redoableLines: [] },
-  ]);
+  const [pages, setPages] = useState<Page[]>([emptyPage()]);
   const [pageIndex, setPageIndex] = useState(0);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pageIndex,
@@ -82,7 +84,7 @@ const App = () => {
 
   const pushPage = () => {
     if (pageIndex == pages.length - 1) {
-      setPages([...pages, { lines: [], redoableLines: [] }]);
+      setPages([...pages, emptyPage()]);
     }
     setPageIndex(pageIndex + 1);
   };
