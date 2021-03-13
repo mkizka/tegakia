@@ -25,8 +25,8 @@ export function splitArrayIntoThree<T>(
   return [prevArray, item, nextArray];
 }
 
-function usePages() {
-  const [pages, setPages] = useState<Page[]>([emptyPage()]);
+export function usePages(initialState: Page[]) {
+  const [pages, setPages] = useState<Page[]>(initialState);
   const [pageIndex, setPageIndex] = useState(0);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pages,
@@ -35,6 +35,17 @@ function usePages() {
   function setCurrentPage(newPage: Page) {
     setPages([...prevPages, newPage, ...nextPages]);
   }
+  function backPage() {
+    if (pageIndex > 0) {
+      setPageIndex(pageIndex - 1);
+    }
+  }
+  function pushPage() {
+    if (pageIndex == pages.length - 1) {
+      setPages([...pages, emptyPage()]);
+    }
+    setPageIndex(pageIndex + 1);
+  }
   return {
     pageIndex,
     setPageIndex,
@@ -42,18 +53,20 @@ function usePages() {
     setCurrentPage,
     pages,
     setPages,
+    pushPage,
+    backPage,
   };
 }
 
 const App = () => {
   const {
     pageIndex,
-    setPageIndex,
     currentPage,
     setCurrentPage,
     pages,
-    setPages,
-  } = usePages();
+    pushPage,
+    backPage,
+  } = usePages([emptyPage()]);
   const isDrawing = useRef(false);
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
@@ -80,19 +93,6 @@ const App = () => {
 
   const handleMouseUp = () => {
     isDrawing.current = false;
-  };
-
-  const backPage = () => {
-    if (pageIndex > 0) {
-      setPageIndex(pageIndex - 1);
-    }
-  };
-
-  const pushPage = () => {
-    if (pageIndex == pages.length - 1) {
-      setPages([...pages, emptyPage()]);
-    }
-    setPageIndex(pageIndex + 1);
   };
 
   return (

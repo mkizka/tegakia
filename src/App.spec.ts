@@ -1,4 +1,5 @@
-import { emptyPage, splitArrayIntoThree } from "./App";
+import { renderHook, act } from "@testing-library/react-hooks";
+import { emptyPage, splitArrayIntoThree, usePages } from "./App";
 
 test("emptyPage", () => {
   const page = emptyPage();
@@ -32,5 +33,30 @@ describe("splitArrayIntoThree", () => {
         splitArrayIntoThree(array, index);
       }).toThrowError();
     }
+  });
+});
+
+describe("usePages", () => {
+  describe("pushPage", () => {
+    it("ページを増やしつつ次ページへ", () => {
+      const { result } = renderHook(() => usePages([emptyPage()]));
+      expect(result.current.pageIndex).toBe(0);
+      expect(result.current.pages.length).toBe(1);
+      act(() => {
+        result.current.pushPage();
+      });
+      expect(result.current.pageIndex).toBe(1);
+      expect(result.current.pages.length).toBe(2);
+    });
+    it("ページを増やさず次ページへ", () => {
+      const { result } = renderHook(() => usePages([emptyPage(), emptyPage()]));
+      expect(result.current.pageIndex).toBe(0);
+      expect(result.current.pages.length).toBe(2);
+      act(() => {
+        result.current.pushPage();
+      });
+      expect(result.current.pageIndex).toBe(1);
+      expect(result.current.pages.length).toBe(2);
+    });
   });
 });
