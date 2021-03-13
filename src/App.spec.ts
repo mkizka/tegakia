@@ -1,10 +1,12 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { emptyPage, splitArrayIntoThree, usePages } from "./App";
 
-test("emptyPage", () => {
-  const page = emptyPage();
-  expect(page.lines).toStrictEqual([]);
-  expect(page.redoableLines).toStrictEqual([]);
+describe("emptyPage", () => {
+  it("空ページを生成", () => {
+    const page = emptyPage();
+    expect(page.lines).toStrictEqual([]);
+    expect(page.redoableLines).toStrictEqual([]);
+  });
 });
 
 describe("splitArrayIntoThree", () => {
@@ -40,23 +42,37 @@ describe("usePages", () => {
   describe("pushPage", () => {
     it("ページを増やしつつ次ページへ", () => {
       const { result } = renderHook(() => usePages([emptyPage()]));
-      expect(result.current.pageIndex).toBe(0);
-      expect(result.current.pages.length).toBe(1);
       act(() => {
         result.current.pushPage();
       });
       expect(result.current.pageIndex).toBe(1);
-      expect(result.current.pages.length).toBe(2);
+      expect(result.current.pages).toStrictEqual([emptyPage(), emptyPage()]);
     });
     it("ページを増やさず次ページへ", () => {
       const { result } = renderHook(() => usePages([emptyPage(), emptyPage()]));
-      expect(result.current.pageIndex).toBe(0);
-      expect(result.current.pages.length).toBe(2);
       act(() => {
         result.current.pushPage();
       });
       expect(result.current.pageIndex).toBe(1);
-      expect(result.current.pages.length).toBe(2);
+      expect(result.current.pages).toStrictEqual([emptyPage(), emptyPage()]);
+    });
+  });
+  describe("backPage", () => {
+    it("ページを戻る", () => {
+      const { result } = renderHook(() => usePages([emptyPage()]));
+      act(() => {
+        result.current.pushPage();
+        result.current.pushPage();
+        result.current.backPage();
+      });
+      expect(result.current.pageIndex).toBe(1);
+    });
+    it("最初のページの場合は戻れない", () => {
+      const { result } = renderHook(() => usePages([emptyPage()]));
+      act(() => {
+        result.current.backPage();
+      });
+      expect(result.current.pageIndex).toBe(0);
     });
   });
 });
