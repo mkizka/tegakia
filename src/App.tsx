@@ -1,5 +1,5 @@
 import { KonvaEventObject } from "konva/types/Node";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Layer, Stage, Line } from "react-konva";
 
 type Line = number[];
@@ -61,6 +61,7 @@ export function usePages(initialState: Page[]) {
 const App = () => {
   const {
     pageIndex,
+    setPageIndex,
     currentPage,
     setCurrentPage,
     pages,
@@ -68,6 +69,7 @@ const App = () => {
     backPage,
   } = usePages([emptyPage()]);
   const isDrawing = useRef(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     isDrawing.current = true;
@@ -95,11 +97,36 @@ const App = () => {
     isDrawing.current = false;
   };
 
+  useEffect(() => {
+    /**
+     * useEffect内でdepsを更新することで無限ループする
+     * 再生開始の場合
+     * 1. isPlayingが変化
+     * 2. setTimeout発火
+     * 3. pageIndexが変化
+     * 4. setTimeout発火 以降ループ
+     */
+    const playInterval = setTimeout(() => {
+      if (!isPlaying) return;
+      if (pageIndex == pages.length - 1) {
+        setPageIndex(0);
+      } else {
+        setPageIndex(pageIndex + 1);
+      }
+    }, 1000 / 30);
+    return () => clearInterval(playInterval);
+  }, [pageIndex, isPlaying]);
+
+  const play = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <>
       <p>
         <button onClick={backPage}>{"<"}</button>
         <button onClick={pushPage}>{">"}</button>
+        <button onClick={play}>{isPlaying ? "stop" : "play"}</button>
       </p>
       <p>
         {pageIndex + 1}/{pages.length}
