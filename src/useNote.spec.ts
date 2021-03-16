@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import { emptyPage } from "./pages";
-import { splitArrayIntoThree, usePages } from "./usePages";
+import { splitArrayIntoThree, useNote } from "./useNote";
 
 describe("splitArrayIntoThree", () => {
   it("範囲内のインデックスを指定すると配列を分割する", () => {
@@ -31,10 +31,10 @@ describe("splitArrayIntoThree", () => {
   });
 });
 
-describe("usePages", () => {
+describe("useNote", () => {
   describe("pushPage", () => {
     it("ページを増やしつつ次ページへ", () => {
-      const { result } = renderHook(() => usePages([emptyPage()]));
+      const { result } = renderHook(() => useNote([emptyPage()]));
       act(() => {
         result.current.pushPage();
       });
@@ -42,7 +42,7 @@ describe("usePages", () => {
       expect(result.current.pages).toStrictEqual([emptyPage(), emptyPage()]);
     });
     it("ページを増やさず次ページへ", () => {
-      const { result } = renderHook(() => usePages([emptyPage(), emptyPage()]));
+      const { result } = renderHook(() => useNote([emptyPage(), emptyPage()]));
       act(() => {
         result.current.pushPage();
       });
@@ -52,7 +52,7 @@ describe("usePages", () => {
   });
   describe("backPage", () => {
     it("ページを戻る", () => {
-      const { result } = renderHook(() => usePages([emptyPage()]));
+      const { result } = renderHook(() => useNote([emptyPage()]));
       act(() => {
         result.current.pushPage();
         result.current.pushPage();
@@ -61,7 +61,7 @@ describe("usePages", () => {
       expect(result.current.pageIndex).toBe(1);
     });
     it("最初のページの場合は戻れない", () => {
-      const { result } = renderHook(() => usePages([emptyPage()]));
+      const { result } = renderHook(() => useNote([emptyPage()]));
       act(() => {
         result.current.backPage();
       });

@@ -2,32 +2,24 @@ import { KonvaEventObject } from "konva/types/Node";
 import React, { useState, useEffect } from "react";
 import { Layer, Stage, Line } from "react-konva";
 import { emptyPage } from "./pages";
-import { usePages } from "./usePages";
+import { useNote } from "./useNote";
 
 const App = () => {
-  const {
-    pageIndex,
-    setPageIndex,
-    currentPage,
-    setCurrentPage,
-    pages,
-    pushPage,
-    backPage,
-  } = usePages([emptyPage()]);
+  const note = useNote([emptyPage()]);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const addLineToCurrentPage = (x: number, y: number) => {
-    setCurrentPage({
-      lines: [...currentPage.lines, [x, y]],
-      redoableLines: currentPage.redoableLines,
+    note.setCurrentPage({
+      lines: [...note.currentPage.lines, [x, y]],
+      redoableLines: note.currentPage.redoableLines,
     });
   };
 
   const updateLineToCurrentPage = (x: number, y: number) => {
-    const currentLine = currentPage.lines.pop()!;
-    setCurrentPage({
-      lines: [...currentPage.lines, [...currentLine, x, y]],
-      redoableLines: currentPage.redoableLines,
+    const currentLine = note.currentPage.lines.pop()!;
+    note.setCurrentPage({
+      lines: [...note.currentPage.lines, [...currentLine, x, y]],
+      redoableLines: note.currentPage.redoableLines,
     });
   };
 
@@ -42,7 +34,7 @@ const App = () => {
     }
     const stage = e.target.getStage()!;
     const pos = stage.getPointerPosition()!;
-    if (currentPage.lines.length == 0) {
+    if (note.currentPage.lines.length == 0) {
       addLineToCurrentPage(pos.x, pos.y);
     } else {
       updateLineToCurrentPage(pos.x, pos.y);
@@ -60,14 +52,14 @@ const App = () => {
      */
     const playInterval = setTimeout(() => {
       if (!isPlaying) return;
-      if (pageIndex == pages.length - 1) {
-        setPageIndex(0);
+      if (note.pageIndex == note.pages.length - 1) {
+        note.setPageIndex(0);
       } else {
-        setPageIndex(pageIndex + 1);
+        note.setPageIndex(note.pageIndex + 1);
       }
     }, 1000 / 30);
     return () => clearInterval(playInterval);
-  }, [pageIndex, isPlaying]);
+  }, [note.pageIndex, isPlaying]);
 
   const play = () => {
     setIsPlaying(!isPlaying);
@@ -76,12 +68,12 @@ const App = () => {
   return (
     <>
       <p>
-        <button onClick={backPage}>{"<"}</button>
-        <button onClick={pushPage}>{">"}</button>
+        <button onClick={note.backPage}>{"<"}</button>
+        <button onClick={note.pushPage}>{">"}</button>
         <button onClick={play}>{isPlaying ? "stop" : "play"}</button>
       </p>
       <p>
-        {pageIndex + 1}/{pages.length}
+        {note.pageIndex + 1}/{note.pages.length}
       </p>
       <Stage
         width={window.innerWidth}
@@ -90,7 +82,7 @@ const App = () => {
         onMouseMove={handleMouseMove}
       >
         <Layer>
-          {currentPage.lines.map((line, i) => (
+          {note.currentPage.lines.map((line, i) => (
             <Line key={i} points={line} stroke="red" />
           ))}
         </Layer>
