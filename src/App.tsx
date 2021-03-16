@@ -12,6 +12,7 @@ const App = () => {
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const pos = e.target.getStage()!.getPointerPosition()!;
     note.addLine(pos.x, pos.y);
+    isDrawing.current = true;
   };
 
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
