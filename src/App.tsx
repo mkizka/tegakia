@@ -69,7 +69,7 @@ const App = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.menu}>
         <button onClick={note.backPage}>{"<"}</button>
         <button onClick={note.pushPage}>{">"}</button>
@@ -98,7 +98,7 @@ const App = () => {
           ))}
         </Layer>
       </Stage>
-    </div>
+    </>
   );
 };
 
