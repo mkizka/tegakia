@@ -1,5 +1,5 @@
 import { KonvaEventObject } from "konva/types/Node";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Layer, Stage, Line } from "react-konva";
 import { emptyPage } from "./pages";
 import { usePages } from "./usePages";
@@ -14,33 +14,39 @@ const App = () => {
     pushPage,
     backPage,
   } = usePages([emptyPage()]);
-  const isDrawing = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
-    isDrawing.current = true;
-    const pos = e.target.getStage()!.getPointerPosition()!;
+  const addLineToCurrentPage = (x: number, y: number) => {
     setCurrentPage({
-      lines: [...currentPage.lines, [pos.x, pos.y]],
+      lines: [...currentPage.lines, [x, y]],
       redoableLines: currentPage.redoableLines,
     });
   };
 
+  const updateLineToCurrentPage = (x: number, y: number) => {
+    const currentLine = currentPage.lines.pop()!;
+    setCurrentPage({
+      lines: [...currentPage.lines, [...currentLine, x, y]],
+      redoableLines: currentPage.redoableLines,
+    });
+  };
+
+  const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
+    const pos = e.target.getStage()!.getPointerPosition()!;
+    addLineToCurrentPage(pos.x, pos.y);
+  };
+
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
-    if (!isDrawing.current) {
+    if (e.evt.buttons !== 1) {
       return;
     }
     const stage = e.target.getStage()!;
     const pos = stage.getPointerPosition()!;
-    const currentLine = currentPage.lines.pop()!;
-    setCurrentPage({
-      lines: [...currentPage.lines, [...currentLine, pos.x, pos.y]],
-      redoableLines: currentPage.redoableLines,
-    });
-  };
-
-  const handleMouseUp = () => {
-    isDrawing.current = false;
+    if (currentPage.lines.length == 0) {
+      addLineToCurrentPage(pos.x, pos.y);
+    } else {
+      updateLineToCurrentPage(pos.x, pos.y);
+    }
   };
 
   useEffect(() => {
@@ -81,8 +87,7 @@ const App = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onMouseDown={handleMouseDown}
-        onMousemove={handleMouseMove}
-        onMouseup={handleMouseUp}
+        onMouseMove={handleMouseMove}
       >
         <Layer>
           {currentPage.lines.map((line, i) => (
