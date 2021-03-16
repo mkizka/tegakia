@@ -23,6 +23,19 @@ export function useNote(initialState: Page[]) {
   function setCurrentPage(newPage: Page) {
     setPages([...prevPages, newPage, ...nextPages]);
   }
+  function addLine(x: number, y: number) {
+    setCurrentPage({
+      lines: [...currentPage.lines, [x, y]],
+      redoableLines: currentPage.redoableLines,
+    });
+  }
+  function updateLine(x: number, y: number) {
+    const currentLine = currentPage.lines.pop()!;
+    setCurrentPage({
+      lines: [...currentPage.lines, [...currentLine, x, y]],
+      redoableLines: currentPage.redoableLines,
+    });
+  }
   function backPage() {
     if (pageIndex > 0) {
       setPageIndex(pageIndex - 1);
@@ -39,6 +52,8 @@ export function useNote(initialState: Page[]) {
     setPageIndex,
     currentPage,
     setCurrentPage,
+    addLine,
+    updateLine,
     pages,
     setPages,
     pushPage,

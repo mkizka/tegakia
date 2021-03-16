@@ -8,24 +8,9 @@ const App = () => {
   const note = useNote([emptyPage()]);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const addLineToCurrentPage = (x: number, y: number) => {
-    note.setCurrentPage({
-      lines: [...note.currentPage.lines, [x, y]],
-      redoableLines: note.currentPage.redoableLines,
-    });
-  };
-
-  const updateLineToCurrentPage = (x: number, y: number) => {
-    const currentLine = note.currentPage.lines.pop()!;
-    note.setCurrentPage({
-      lines: [...note.currentPage.lines, [...currentLine, x, y]],
-      redoableLines: note.currentPage.redoableLines,
-    });
-  };
-
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const pos = e.target.getStage()!.getPointerPosition()!;
-    addLineToCurrentPage(pos.x, pos.y);
+    note.addLine(pos.x, pos.y);
   };
 
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
@@ -35,9 +20,9 @@ const App = () => {
     const stage = e.target.getStage()!;
     const pos = stage.getPointerPosition()!;
     if (note.currentPage.lines.length == 0) {
-      addLineToCurrentPage(pos.x, pos.y);
+      note.addLine(pos.x, pos.y);
     } else {
-      updateLineToCurrentPage(pos.x, pos.y);
+      note.updateLine(pos.x, pos.y);
     }
   };
 
