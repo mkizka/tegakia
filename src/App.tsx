@@ -1,23 +1,27 @@
 import { KonvaEventObject } from "konva/types/Node";
 import React, { useState, useEffect, useRef } from "react";
 import { Layer, Stage, Line } from "react-konva";
+import { useWindowSize } from "@react-hook/window-size";
+
 import { emptyPage } from "./pages";
 import { useNote } from "./useNote";
+import styles from "./App.module.css";
 
 const App = () => {
   const note = useNote([emptyPage()]);
+  const [width, height] = useWindowSize();
   const [isPlaying, setIsPlaying] = useState(false);
   const isDrawing = useRef(false);
   const [fps, setFps] = useState(12);
 
-  const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
+  const handleMouseDown = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const pos = e.target.getStage()!.getPointerPosition()!;
     note.addLine(pos.x, pos.y);
     isDrawing.current = true;
   };
 
-  const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
-    if (e.evt.buttons !== 1) {
+  const handleMouseMove = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
+    if (e.evt instanceof MouseEvent && e.evt.buttons !== 1) {
       // mousemoveかつ左クリックがない場合、mouseupと同じであるため
       // 例:mousedownしたまま画面外にカーソルを移動させた後に復帰した場合など
       handleMouseUp();
@@ -65,27 +69,28 @@ const App = () => {
   };
 
   return (
-    <>
-      <p>
+    <div className={styles.container}>
+      <div className={styles.menu}>
         <button onClick={note.backPage}>{"<"}</button>
         <button onClick={note.pushPage}>{">"}</button>
         <button onClick={play}>{isPlaying ? "stop" : "play"}</button>
+        {note.pageIndex + 1}/{note.pages.length}
         <input
           type="number"
           value={fps}
           onChange={(e) => setFps(parseInt(e.target.value) || 0)}
         />
         fps
-      </p>
-      <p>
-        {note.pageIndex + 1}/{note.pages.length}
-      </p>
+      </div>
       <Stage
-        width={window.innerWidth}
-        height={window.innerHeight}
+        width={width}
+        height={height}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
       >
         <Layer>
           {note.currentPage.lines.map((line, i) => (
@@ -93,7 +98,7 @@ const App = () => {
           ))}
         </Layer>
       </Stage>
-    </>
+    </div>
   );
 };
 

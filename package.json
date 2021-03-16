@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-hook/window-size": "^3.0.7",
     "konva": "^7.2.5",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
