@@ -8,6 +8,7 @@ const App = () => {
   const note = useNote([emptyPage()]);
   const [isPlaying, setIsPlaying] = useState(false);
   const isDrawing = useRef(false);
+  const [fps, setFps] = useState(12);
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const pos = e.target.getStage()!.getPointerPosition()!;
@@ -55,7 +56,7 @@ const App = () => {
       }
       // ページ移動後に再度新しく線が引けるように
       isDrawing.current = false;
-    }, 1000 / 30);
+    }, 1000 / fps);
     return () => clearInterval(playInterval);
   }, [note.pageIndex, isPlaying]);
 
@@ -69,6 +70,12 @@ const App = () => {
         <button onClick={note.backPage}>{"<"}</button>
         <button onClick={note.pushPage}>{">"}</button>
         <button onClick={play}>{isPlaying ? "stop" : "play"}</button>
+        <input
+          type="number"
+          value={fps}
+          onChange={(e) => setFps(parseInt(e.target.value) || 0)}
+        />
+        fps
       </p>
       <p>
         {note.pageIndex + 1}/{note.pages.length}
