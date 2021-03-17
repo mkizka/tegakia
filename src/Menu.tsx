@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
-  Container,
+  Select,
   IconButton,
   Button,
   ButtonGroup,
-  Input,
-  InputGroup,
-  InputRightAddon,
   Flex,
 } from "@chakra-ui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
@@ -58,7 +55,7 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
   };
 
   return (
-    <Flex position="fixed" zIndex="1">
+    <Flex position="fixed" zIndex="1" ml="0.5rem" mt="0.5rem">
       <ButtonGroup>
         <IconButton
           aria-label="次ページへ"
@@ -73,16 +70,15 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
         <Button aria-label={isPlaying ? "停止" : "再生"} onClick={play}>
           {isPlaying ? "stop" : "play"}
         </Button>
+        <Button>
+          {note.pageIndex + 1}/{note.pages.length}
+        </Button>
+        <Select value={fps} onChange={(e) => setFps(parseInt(e.target.value))}>
+          {[1, 2, 4, 8, 12, 24, 30, 60].map((fps) => (
+            <option value={fps}>FPS: {fps}</option>
+          ))}
+        </Select>
       </ButtonGroup>
-      {note.pageIndex + 1}/{note.pages.length}
-      <InputGroup>
-        <Input
-          type="number"
-          value={fps}
-          onChange={(e) => setFps(parseInt(e.target.value) || 0)}
-        />
-        <InputRightAddon children="fps" />
-      </InputGroup>
     </Flex>
   );
 };
