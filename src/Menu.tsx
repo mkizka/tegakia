@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
+import {
+  Container,
+  IconButton,
+  Button,
+  ButtonGroup,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  Flex,
+} from "@chakra-ui/react";
+import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 
 import { Note } from "./useNote";
-import styles from "./Menu.module.css";
 
 type Props = {
   note: Note;
@@ -48,18 +58,32 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
   };
 
   return (
-    <div className={styles.menu}>
-      <button onClick={pushPage}>{"<"}</button>
-      <button onClick={backPage}>{">"}</button>
-      <button onClick={play}>{isPlaying ? "stop" : "play"}</button>
+    <Flex position="fixed" zIndex="1">
+      <ButtonGroup>
+        <IconButton
+          aria-label="次ページへ"
+          onClick={pushPage}
+          icon={<ArrowLeftIcon />}
+        />
+        <IconButton
+          aria-label="前ページへ"
+          onClick={backPage}
+          icon={<ArrowRightIcon />}
+        />
+        <Button aria-label={isPlaying ? "停止" : "再生"} onClick={play}>
+          {isPlaying ? "stop" : "play"}
+        </Button>
+      </ButtonGroup>
       {note.pageIndex + 1}/{note.pages.length}
-      <input
-        type="number"
-        value={fps}
-        onChange={(e) => setFps(parseInt(e.target.value) || 0)}
-      />
-      fps
-    </div>
+      <InputGroup>
+        <Input
+          type="number"
+          value={fps}
+          onChange={(e) => setFps(parseInt(e.target.value) || 0)}
+        />
+        <InputRightAddon children="fps" />
+      </InputGroup>
+    </Flex>
   );
 };
 
