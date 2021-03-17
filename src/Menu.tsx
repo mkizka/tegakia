@@ -75,7 +75,9 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
         </Button>
         <Select value={fps} onChange={(e) => setFps(parseInt(e.target.value))}>
           {[1, 2, 4, 8, 12, 24, 30, 60].map((fps) => (
-            <option value={fps}>FPS: {fps}</option>
+            <option key={fps} value={fps}>
+              {`FPS: ${fps}`}
+            </option>
           ))}
         </Select>
       </ButtonGroup>
