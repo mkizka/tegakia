@@ -60,3 +60,5 @@ export function useNote(initialState: Page[]) {
     backPage,
   };
 }
+
+export type Note = ReturnType<typeof useNote>;
