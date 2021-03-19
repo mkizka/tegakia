@@ -25,9 +25,13 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
     e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
   ) => {
     if (e.evt instanceof MouseEvent && e.evt.buttons !== 1) {
-      // mousemoveかつ左クリックがない場合、mouseupと同じであるため
-      // 例:mousedownしたまま画面外にカーソルを移動させた後に復帰した場合など
-      handleMouseUp();
+      if (isDrawing.current) {
+        // isDrawing時に左クリックなしでmousemoveするのは異常であるため
+        // 例:左クリックを押したまま画面外にカーソルを移動させ、
+        // 　 左クリックを離した後にカーソルをウインドウ内に戻した場合など
+        // 　 (ウインドウ外で左クリックを離すとmouseupが呼ばれない)
+        handleMouseUp();
+      }
       return;
     }
     const stage = e.target.getStage()!;
