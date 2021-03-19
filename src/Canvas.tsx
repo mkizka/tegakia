@@ -10,27 +10,27 @@ type Props = {
   isDrawing: React.MutableRefObject<boolean>;
 };
 
+type DrawEventHandler = (
+  e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
+) => void;
+
 const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
   const [width, height] = useWindowSize();
 
-  const handleMouseDown = (
-    e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
-  ) => {
+  const handleMouseDown: DrawEventHandler = (e) => {
     const pos = e.target.getStage()!.getPointerPosition()!;
     note.addLine(pos.x, pos.y);
     isDrawing.current = true;
   };
 
-  const handleMouseMove = (
-    e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
-  ) => {
+  const handleMouseMove: DrawEventHandler = (e) => {
     if (e.evt instanceof MouseEvent && e.evt.buttons !== 1) {
       if (isDrawing.current) {
         // isDrawing時に左クリックなしでmousemoveするのは異常であるため
         // 例:左クリックを押したまま画面外にカーソルを移動させ、
         // 　 左クリックを離した後にカーソルをウインドウ内に戻した場合など
         // 　 (ウインドウ外で左クリックを離すとmouseupが呼ばれない)
-        handleMouseUp();
+        handleMouseUp(e);
       }
       return;
     }
@@ -45,7 +45,7 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
     }
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp: DrawEventHandler = (_) => {
     isDrawing.current = false;
   };
 
