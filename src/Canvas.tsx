@@ -18,6 +18,7 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
   const [width, height] = useWindowSize();
 
   const handleMouseDown: DrawEventHandler = (e) => {
+    e.evt.preventDefault();
     // 2つ以上のタップのtouchstartを無視する
     if (e.evt instanceof TouchEvent && e.evt.touches.length >= 2) {
       return;
@@ -28,6 +29,7 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
   };
 
   const handleMouseMove: DrawEventHandler = (e) => {
+    e.evt.preventDefault();
     if (e.evt instanceof MouseEvent && e.evt.buttons !== 1) {
       if (isDrawing.current) {
         // isDrawing時に左クリックなしでmousemoveするのは異常であるため
@@ -49,6 +51,7 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
   };
 
   const handleMouseUp: DrawEventHandler = (e) => {
+    e.evt.preventDefault();
     // 2つ以上のタップのtouchendを無視する
     // touchend時のevt.touchesに離したタップは含まれないため、ダブルタップ時のtouches.lengthは1
     if (e.evt instanceof TouchEvent && e.evt.touches.length >= 1) {
