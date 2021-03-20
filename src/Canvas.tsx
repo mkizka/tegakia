@@ -73,7 +73,14 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
     >
       <Layer>
         {note.currentPage.lines.map((line, i) => (
-          <Line key={i} points={line} stroke="red" />
+          <Line
+            key={i}
+            tension={0.5}
+            lineCap="round"
+            lineJoin="round"
+            points={line}
+            stroke="red"
+          />
         ))}
       </Layer>
     </Stage>
