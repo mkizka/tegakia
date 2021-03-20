@@ -18,6 +18,10 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
   const [width, height] = useWindowSize();
 
   const handleMouseDown: DrawEventHandler = (e) => {
+    // 2つ以上のタップのtouchstartを無視する
+    if (e.evt instanceof TouchEvent && e.evt.touches.length >= 2) {
+      return;
+    }
     const pos = e.target.getStage()!.getPointerPosition()!;
     note.addLine(pos.x, pos.y);
     isDrawing.current = true;
@@ -34,18 +38,22 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
       }
       return;
     }
-    const stage = e.target.getStage()!;
-    const pos = stage.getPointerPosition()!;
     if (!isDrawing.current) {
       // isDrawingでない時にmousemoveした場合はmousedownと同じであるため
       // 例:mousedownしたままページを移動した場合など
       handleMouseDown(e);
     } else {
+      const pos = e.target.getStage()!.getPointerPosition()!;
       note.updateLine(pos.x, pos.y);
     }
   };
 
-  const handleMouseUp: DrawEventHandler = (_) => {
+  const handleMouseUp: DrawEventHandler = (e) => {
+    // 2つ以上のタップのtouchendを無視する
+    // touchend時のevt.touchesに離したタップは含まれないため、ダブルタップ時のtouches.lengthは1
+    if (e.evt instanceof TouchEvent && e.evt.touches.length >= 1) {
+      return;
+    }
     isDrawing.current = false;
   };
 
