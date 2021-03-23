@@ -1,3 +1,5 @@
 node_modules/
 dist/
 .firebaserc
+cypress/screenshots
+cypress/videos
