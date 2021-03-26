@@ -3,3 +3,4 @@ dist/
 .firebaserc
 cypress/screenshots
 cypress/videos
+*.log
