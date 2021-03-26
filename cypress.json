@@ -1,1 +1,12 @@
-{}
+{
+  "baseUrl": "http://localhost:3000",
+  "fixturesFolder": false,
+  "video": false,
+  "imageConfig": {
+    "threshold": 0.01
+  },
+  "ignoreTestFiles": [
+    "**/__snapshots__/*",
+    "**/__image_snapshots__/*"
+  ]
+}
