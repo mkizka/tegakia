@@ -5,8 +5,5 @@
   "imageConfig": {
     "threshold": 0.01
   },
-  "ignoreTestFiles": [
-    "**/__snapshots__/*",
-    "**/__image_snapshots__/*"
-  ]
+  "ignoreTestFiles": ["**/__snapshots__/*", "**/__image_snapshots__/*"]
 }
