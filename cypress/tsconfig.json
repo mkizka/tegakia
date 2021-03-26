@@ -3,7 +3,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
-    "types": ["cypress"],
+    "types": ["cypress", "cypress-plugin-snapshots"],
     "isolatedModules": false
   },
   "include": ["../node_modules/cypress", "./*/*.ts"]
