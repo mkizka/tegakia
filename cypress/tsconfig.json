@@ -1,0 +1,10 @@
+// https://github.com/cypress-io/cypress-and-jest-typescript-example/blob/master/cypress/tsconfig.json
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["cypress", "cypress-plugin-snapshots"],
+    "isolatedModules": false
+  },
+  "include": ["../node_modules/cypress", "./*/*.ts"]
+}
