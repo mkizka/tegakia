@@ -1,7 +1,6 @@
 {
   "baseUrl": "http://localhost:3000",
   "fixturesFolder": false,
-  "video": false,
   "env": {
     "cypress-plugin-snapshots": {
       "separator": "@"
