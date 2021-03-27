@@ -1,6 +1,14 @@
 node_modules/
 dist/
+*.log
+
+# firebase
 .firebaserc
+
+# cypress
 cypress/screenshots
 cypress/videos
-*.log
+
+# cypress-plugin-snapshots
+*.actual.png
+*.diff.png
