@@ -16,7 +16,9 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: failure()
         with:
-          path: cypress/videos
+          path: |
+            cypress/videos
+            cypress/screenshots
       - run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
