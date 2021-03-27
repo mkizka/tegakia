@@ -11,7 +11,7 @@ describe("ペン", () => {
       .trigger("mouseup")
       .toMatchImageSnapshot({
         imageConfig: {
-          threshold: 0.01,
+          threshold: 0.001,
         },
         name: "mouse-simple-draw",
       });
