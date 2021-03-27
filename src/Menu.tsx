@@ -45,12 +45,12 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
   };
 
   const pushPage = () => {
-    note.backPage();
+    note.pushPage();
     onPageChanged();
   };
 
   const backPage = () => {
-    note.pushPage();
+    note.backPage();
     onPageChanged();
   };
 
@@ -58,13 +58,13 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
     <Flex position="fixed" zIndex="1" ml="0.5rem" mt="0.5rem">
       <ButtonGroup>
         <IconButton
-          aria-label="次ページへ"
-          onClick={pushPage}
+          aria-label="前ページへ"
+          onClick={backPage}
           icon={<ArrowLeftIcon />}
         />
         <IconButton
-          aria-label="前ページへ"
-          onClick={backPage}
+          aria-label="次ページへ"
+          onClick={pushPage}
           icon={<ArrowRightIcon />}
         />
         <Button aria-label={isPlaying ? "停止" : "再生"} onClick={play}>
