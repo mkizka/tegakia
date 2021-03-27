@@ -13,7 +13,6 @@ jobs:
       - uses: cypress-io/github-action@v1
         with:
           start: yarn dev
-          wait-on: "http://localhost:3000"
       - run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
