@@ -11,6 +11,7 @@ describe("ペン", () => {
       .trigger("mouseup")
       .matchImageSnapshot("mouse-simple-draw", {
         failureThreshold: 0.01,
+        failureThresholdType: "percent",
       });
   });
 });
