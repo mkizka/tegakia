@@ -67,8 +67,15 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
     }, 2000);
   };
 
+  const shouldHide = new URLSearchParams(location.search).has("hideMenu");
   return (
-    <Flex position="fixed" zIndex="1" ml="0.5rem" mt="0.5rem">
+    <Flex
+      position="fixed"
+      zIndex="1"
+      ml="0.5rem"
+      mt="0.5rem"
+      display={shouldHide ? "none" : undefined}
+    >
       <ButtonGroup>
         <IconButton
           aria-label="前ページへ"

@@ -1,6 +1,6 @@
 describe("ペン", () => {
   beforeEach(() => {
-    cy.visit("/");
+    cy.visit("/?hideMenu");
   });
   it("マウスで線が引ける", () => {
     cy.get("canvas")
