@@ -18,6 +18,7 @@ type Props = {
 const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [fps, setFps] = useState(12);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     /**
@@ -54,6 +55,14 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
     onPageChanged();
   };
 
+  const saveNote = () => {
+    localStorage.setItem("note", JSON.stringify(note.pages));
+    setSaved(true);
+    setTimeout(() => {
+      setSaved(false);
+    }, 2000);
+  };
+
   return (
     <Flex position="fixed" zIndex="1" ml="0.5rem" mt="0.5rem">
       <ButtonGroup>
@@ -80,6 +89,7 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
             </option>
           ))}
         </Select>
+        <Button onClick={saveNote}>{saved ? "保存しました" : "保存"}</Button>
       </ButtonGroup>
     </Flex>
   );

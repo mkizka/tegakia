@@ -23,7 +23,9 @@ const styles = `
 `;
 
 const App = () => {
-  const note = useNote([emptyPage()]);
+  const note = useNote(
+    JSON.parse(localStorage.getItem("note")!) || [emptyPage()]
+  );
   const isDrawing = useRef(false);
 
   return (
