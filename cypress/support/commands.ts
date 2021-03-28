@@ -1,1 +1,3 @@
-import "cypress-plugin-snapshots/commands";
+import { addMatchImageSnapshotCommand } from "cypress-image-snapshot/command";
+
+addMatchImageSnapshotCommand();

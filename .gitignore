@@ -9,6 +9,5 @@ dist/
 cypress/screenshots
 cypress/videos
 
-# cypress-plugin-snapshots
-*.actual.png
+# cypress-image-snapshot
 *.diff.png

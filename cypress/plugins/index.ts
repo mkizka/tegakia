@@ -1,8 +1,8 @@
 // @ts-ignore
-import * as snapshots from "cypress-plugin-snapshots/plugin";
+import { addMatchImageSnapshotPlugin } from "cypress-image-snapshot/plugin";
 
 const Plugins: Cypress.PluginConfig = (on, config) => {
-  snapshots.initPlugin(on, config);
+  addMatchImageSnapshotPlugin(on, config);
 };
 
 export default Plugins;

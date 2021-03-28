@@ -21,7 +21,7 @@ jobs:
         with:
           path: |
             cypress/videos
-            cypress/integration/__image_snapshots__
+            cypress/snapshots
       - run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

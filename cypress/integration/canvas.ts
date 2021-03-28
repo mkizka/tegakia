@@ -9,11 +9,6 @@ describe("ペン", () => {
       .trigger("mousemove", { x: 70, y: 220 })
       .trigger("mousemove", { x: 100, y: 220 })
       .trigger("mouseup")
-      .toMatchImageSnapshot({
-        imageConfig: {
-          threshold: 0.001,
-        },
-        name: "mouse-simple-draw",
-      });
+      .matchImageSnapshot("mouse-simple-draw");
   });
 });
