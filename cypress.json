@@ -1,10 +1,4 @@
 {
   "baseUrl": "http://localhost:3000",
-  "fixturesFolder": false,
-  "env": {
-    "cypress-plugin-snapshots": {
-      "separator": "@"
-    }
-  },
-  "ignoreTestFiles": ["**/__snapshots__/*", "**/__image_snapshots__/*"]
+  "fixturesFolder": false
 }
