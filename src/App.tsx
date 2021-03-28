@@ -19,7 +19,7 @@ const theme = extendTheme({
 });
 
 const styles = `
-  @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p");
+  @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1p&display=swap");
 `;
 
 const App = () => {
