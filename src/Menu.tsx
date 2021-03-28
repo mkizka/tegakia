@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { IconButton, Button, ButtonGroup, Flex } from "@chakra-ui/react";
+import {
+  IconButton,
+  Button,
+  ButtonGroup,
+  Flex,
+  Stack,
+  Box,
+  FormLabel,
+} from "@chakra-ui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 
 import { Note } from "./useNote";
 import FpsSelect from "./FpsSelect";
+import SettingsDrawerButton from "./SettingsDrawerButton";
 
 type Props = {
   note: Note;
@@ -77,11 +86,19 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
         <Button>
           {note.pageIndex + 1}/{note.pages.length}
         </Button>
-        <FpsSelect
-          value={fps}
-          onChange={(e) => setFps(parseInt(e.target.value))}
-        />
         <Button onClick={saveNote}>{saved ? "保存しました" : "保存"}</Button>
+        <SettingsDrawerButton>
+          <Stack spacing="24px">
+            <Box>
+              <FormLabel htmlFor="fps">FPS(再生速度)</FormLabel>
+              <FpsSelect
+                id="fps"
+                value={fps}
+                onChange={(e) => setFps(parseInt(e.target.value))}
+              />
+            </Box>
+          </Stack>
+        </SettingsDrawerButton>
       </ButtonGroup>
     </Flex>
   );
