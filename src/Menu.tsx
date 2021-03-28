@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Select,
-  IconButton,
-  Button,
-  ButtonGroup,
-  Flex,
-} from "@chakra-ui/react";
+import { IconButton, Button, ButtonGroup, Flex } from "@chakra-ui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 
 import { Note } from "./useNote";
+import FpsSelect from "./FpsSelect";
 
 type Props = {
   note: Note;
@@ -82,13 +77,10 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
         <Button>
           {note.pageIndex + 1}/{note.pages.length}
         </Button>
-        <Select value={fps} onChange={(e) => setFps(parseInt(e.target.value))}>
-          {[1, 2, 4, 8, 12, 24, 30, 60].map((fps) => (
-            <option key={fps} value={fps}>
-              {`FPS: ${fps}`}
-            </option>
-          ))}
-        </Select>
+        <FpsSelect
+          value={fps}
+          onChange={(e) => setFps(parseInt(e.target.value))}
+        />
         <Button onClick={saveNote}>{saved ? "保存しました" : "保存"}</Button>
       </ButtonGroup>
     </Flex>
