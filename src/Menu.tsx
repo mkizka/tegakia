@@ -59,14 +59,6 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
     onPageChanged();
   };
 
-  const saveNote = () => {
-    localStorage.setItem("note", JSON.stringify(note.pages));
-    setSaved(true);
-    setTimeout(() => {
-      setSaved(false);
-    }, 2000);
-  };
-
   const shouldHide = new URLSearchParams(location.search).has("hideMenu");
   return (
     <Flex
@@ -93,7 +85,6 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
         <Button>
           {note.pageIndex + 1}/{note.pages.length}
         </Button>
-        <Button onClick={saveNote}>{saved ? "保存しました" : "保存"}</Button>
         <SettingsDrawerButton>
           <Stack spacing="24px">
             <Box>
