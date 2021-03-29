@@ -13,8 +13,16 @@ export function splitArrayIntoThree<T>(
   return [prevArray, item, nextArray];
 }
 
-export function useNote(initialState: Page[]) {
-  const [pages, setPages] = useState<Page[]>(initialState);
+function loadPages() {
+  const savedPages = localStorage.getItem("note.pages");
+  if (savedPages != null) {
+    return JSON.parse(savedPages) as Page[];
+  }
+  return null;
+}
+
+export function useNote() {
+  const [pages, setPages] = useState<Page[]>(loadPages() || [emptyPage()]);
   const [pageIndex, setPageIndex] = useState(0);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pages,
@@ -47,6 +55,9 @@ export function useNote(initialState: Page[]) {
     }
     setPageIndex(pageIndex + 1);
   }
+  function savePages() {
+    localStorage.setItem("note.pages", JSON.stringify(pages));
+  }
   return {
     pageIndex,
     setPageIndex,
@@ -58,6 +69,7 @@ export function useNote(initialState: Page[]) {
     setPages,
     pushPage,
     backPage,
+    savePages,
   };
 }
 

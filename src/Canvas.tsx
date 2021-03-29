@@ -58,6 +58,7 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
       return;
     }
     isDrawing.current = false;
+    note.savePages();
   };
 
   return (
