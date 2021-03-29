@@ -21,8 +21,10 @@ function loadPages() {
   return null;
 }
 
-export function useNote() {
-  const [pages, setPages] = useState<Page[]>(loadPages() || [emptyPage()]);
+export function useNote(initialState?: Page[]) {
+  const [pages, setPages] = useState<Page[]>(
+    initialState || loadPages() || [emptyPage()]
+  );
   const [pageIndex, setPageIndex] = useState(0);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pages,
