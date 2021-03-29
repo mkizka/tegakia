@@ -59,6 +59,13 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
     onPageChanged();
   };
 
+  const deletePages = () => {
+    const ok = window.confirm("本当に全削除しますか？");
+    if (ok) {
+      note.deletePages();
+    }
+  };
+
   const shouldHide = new URLSearchParams(location.search).has("hideMenu");
   return (
     <Flex
@@ -94,6 +101,16 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
                 value={fps}
                 onChange={(e) => setFps(parseInt(e.target.value))}
               />
+            </Box>
+            <Box>
+              <FormLabel htmlFor="deletePages">全削除</FormLabel>
+              <Button
+                aria-label="全削除する"
+                onClick={deletePages}
+                id="deletePages"
+              >
+                全削除する
+              </Button>
             </Box>
           </Stack>
         </SettingsDrawerButton>

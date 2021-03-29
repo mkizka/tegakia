@@ -58,6 +58,10 @@ export function useNote() {
   function savePages() {
     localStorage.setItem("note.pages", JSON.stringify(pages));
   }
+  function deletePages() {
+    setPages([emptyPage()]);
+    localStorage.removeItem("note.pages");
+  }
   return {
     pageIndex,
     setPageIndex,
@@ -70,6 +74,7 @@ export function useNote() {
     pushPage,
     backPage,
     savePages,
+    deletePages,
   };
 }
 
