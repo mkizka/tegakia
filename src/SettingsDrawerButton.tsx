@@ -8,10 +8,11 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  Icon,
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { BsGearFill } from "react-icons/bs";
 
 type Props = {
   children: React.ReactNode;
@@ -27,7 +28,7 @@ const SettingsDrawerButton: React.VFC<Props> = ({ children }) => {
         aria-label="設定を開く"
         ref={openButton}
         onClick={onOpen}
-        icon={<SettingsIcon />}
+        icon={<Icon as={BsGearFill} />}
       />
       <Drawer
         isOpen={isOpen}

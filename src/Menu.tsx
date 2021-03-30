@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Icon,
   IconButton,
   Button,
   ButtonGroup,
@@ -8,7 +9,12 @@ import {
   Box,
   FormLabel,
 } from "@chakra-ui/react";
-import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
+import {
+  BsCaretLeftFill,
+  BsCaretRightFill,
+  BsPlayFill,
+  BsStopFill,
+} from "react-icons/bs";
 
 import { Note } from "./useNote";
 import FpsSelect from "./FpsSelect";
@@ -22,7 +28,6 @@ type Props = {
 const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [fps, setFps] = useState(12);
-  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     /**
@@ -79,16 +84,18 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
         <IconButton
           aria-label="前ページへ"
           onClick={backPage}
-          icon={<ArrowLeftIcon />}
+          icon={<Icon as={BsCaretLeftFill} />}
+        />
+        <IconButton
+          aria-label={isPlaying ? "停止" : "再生"}
+          onClick={play}
+          icon={isPlaying ? <Icon as={BsStopFill} /> : <Icon as={BsPlayFill} />}
         />
         <IconButton
           aria-label="次ページへ"
           onClick={pushPage}
-          icon={<ArrowRightIcon />}
+          icon={<Icon as={BsCaretRightFill} />}
         />
-        <Button aria-label={isPlaying ? "停止" : "再生"} onClick={play}>
-          {isPlaying ? "stop" : "play"}
-        </Button>
         <Button>
           {note.pageIndex + 1}/{note.pages.length}
         </Button>
