@@ -10,21 +10,21 @@ import {
   DrawerOverlay,
   Icon,
   IconButton,
+  IconButtonProps,
   useDisclosure,
 } from "@chakra-ui/react";
 import { BsGearFill } from "react-icons/bs";
 
-type Props = {
-  children: React.ReactNode;
-};
+type Props = Omit<IconButtonProps, "aria-label" | "ref" | "onClick" | "icon">;
 
-const SettingsDrawerButton: React.VFC<Props> = ({ children }) => {
+const SettingsDrawerButton: React.VFC<Props> = ({ children, ...props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const openButton = useRef(null);
 
   return (
     <>
       <IconButton
+        {...props}
         aria-label="設定を開く"
         ref={openButton}
         onClick={onOpen}

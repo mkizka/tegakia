@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {
-  Icon,
-  IconButton,
-  Button,
-  ButtonGroup,
-  Flex,
-  Stack,
-  Box,
-  FormLabel,
-} from "@chakra-ui/react";
-import {
-  BsCaretLeftFill,
-  BsCaretRightFill,
-  BsPlayFill,
-  BsStopFill,
-} from "react-icons/bs";
+import React, { useState } from "react";
+import { Button, Flex, Stack, Box, FormLabel, Center } from "@chakra-ui/react";
 
 import { Note } from "./useNote";
 import FpsSelect from "./FpsSelect";
 import SettingsDrawerButton from "./SettingsDrawerButton";
+import PageButtons from "./PageButtons";
 
 type Props = {
   note: Note;
@@ -26,43 +12,7 @@ type Props = {
 };
 
 const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [fps, setFps] = useState(12);
-
-  useEffect(() => {
-    /**
-     * useEffect内でdepsを更新することで無限ループする
-     * 再生開始の場合
-     * 1. isPlayingが変化
-     * 2. setTimeout発火
-     * 3. pageIndexが変化
-     * 4. setTimeout発火 以降ループ
-     */
-    const playInterval = setTimeout(() => {
-      if (!isPlaying) return;
-      if (note.pageIndex == note.pages.length - 1) {
-        note.setPageIndex(0);
-      } else {
-        note.setPageIndex(note.pageIndex + 1);
-      }
-      onPageChanged();
-    }, 1000 / fps);
-    return () => clearInterval(playInterval);
-  }, [note.pageIndex, isPlaying]);
-
-  const play = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  const pushPage = () => {
-    note.pushPage();
-    onPageChanged();
-  };
-
-  const backPage = () => {
-    note.backPage();
-    onPageChanged();
-  };
 
   const deletePages = () => {
     const ok = window.confirm("本当に全削除しますか？");
@@ -73,32 +23,16 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
 
   const shouldHide = new URLSearchParams(location.search).has("hideMenu");
   return (
-    <Flex
+    <Box
       position="fixed"
       zIndex="1"
-      ml="0.5rem"
-      mt="0.5rem"
-      display={shouldHide ? "none" : undefined}
+      p="0.5rem"
+      w="100%"
+      h="100%"
+      flexDirection="column"
+      display={shouldHide ? "none" : "flex"}
     >
-      <ButtonGroup>
-        <IconButton
-          aria-label="前ページへ"
-          onClick={backPage}
-          icon={<Icon as={BsCaretLeftFill} />}
-        />
-        <IconButton
-          aria-label={isPlaying ? "停止" : "再生"}
-          onClick={play}
-          icon={isPlaying ? <Icon as={BsStopFill} /> : <Icon as={BsPlayFill} />}
-        />
-        <IconButton
-          aria-label="次ページへ"
-          onClick={pushPage}
-          icon={<Icon as={BsCaretRightFill} />}
-        />
-        <Button>
-          {note.pageIndex + 1}/{note.pages.length}
-        </Button>
+      <Flex justifyContent="flex-end">
         <SettingsDrawerButton>
           <Stack spacing="24px">
             <Box>
@@ -121,8 +55,11 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
             </Box>
           </Stack>
         </SettingsDrawerButton>
-      </ButtonGroup>
-    </Flex>
+      </Flex>
+      <Center mt="auto" mb="2rem">
+        <PageButtons note={note} fps={fps} onPageChanged={onPageChanged} />
+      </Center>
+    </Box>
   );
 };
 
