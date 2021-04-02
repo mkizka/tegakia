@@ -58,19 +58,22 @@ const PageButtons: React.VFC<Props> = ({ note, fps, onPageChanged }) => {
       <IconButton
         aria-label="前ページへ"
         onClick={backPage}
+        size="lg"
         icon={<Icon as={BsCaretLeftFill} />}
       />
       <IconButton
         aria-label={isPlaying ? "停止" : "再生"}
         onClick={play}
+        size="lg"
         icon={isPlaying ? <Icon as={BsStopFill} /> : <Icon as={BsPlayFill} />}
       />
       <IconButton
         aria-label="次ページへ"
         onClick={pushPage}
+        size="lg"
         icon={<Icon as={BsCaretRightFill} />}
       />
-      <Button>
+      <Button size="lg">
         {note.pageIndex + 1}/{note.pages.length}
       </Button>
     </ButtonGroup>

@@ -28,6 +28,7 @@ const SettingsDrawerButton: React.VFC<Props> = ({ children, ...props }) => {
         aria-label="設定を開く"
         ref={openButton}
         onClick={onOpen}
+        size="lg"
         icon={<Icon as={BsGearFill} />}
       />
       <Drawer
