@@ -1,4 +1,3 @@
-// @ts-ignore
 import { addMatchImageSnapshotPlugin } from "cypress-image-snapshot/plugin";
 
 const Plugins: Cypress.PluginConfig = (on, config) => {
