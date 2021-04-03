@@ -11,10 +11,9 @@ import { Note } from "./useNote";
 
 type Props = {
   note: Note;
-  fps: number;
 };
 
-const PageButtons: React.VFC<Props> = ({ note, fps }) => {
+const PageButtons: React.VFC<Props> = ({ note }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const PageButtons: React.VFC<Props> = ({ note, fps }) => {
         note.setPageIndex(note.pageIndex + 1);
       }
       note.startDrawing();
-    }, 1000 / fps);
+    }, 1000 / note.fps);
     return () => clearInterval(playInterval);
   }, [note.pageIndex, isPlaying]);
 

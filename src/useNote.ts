@@ -26,6 +26,7 @@ export function useNote(initialState?: Page[]) {
     initialState || loadPages() || [emptyPage()]
   );
   const [pageIndex, setPageIndex] = useState(0);
+  const [fps, setFps] = useState(12);
   const isDrawing = useRef(false);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pages,
@@ -77,6 +78,8 @@ export function useNote(initialState?: Page[]) {
   return {
     pageIndex,
     setPageIndex,
+    fps,
+    setFps,
     currentPage,
     setCurrentPage,
     addLine,

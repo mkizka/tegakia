@@ -11,8 +11,6 @@ type Props = {
 };
 
 const Menu: React.VFC<Props> = ({ note }) => {
-  const [fps, setFps] = useState(12);
-
   const deletePages = () => {
     const ok = window.confirm("本当に全削除しますか？");
     if (ok) {
@@ -42,8 +40,8 @@ const Menu: React.VFC<Props> = ({ note }) => {
               <FormLabel htmlFor="fps">FPS(再生速度)</FormLabel>
               <FpsSelect
                 id="fps"
-                value={fps}
-                onChange={(e) => setFps(parseInt(e.target.value))}
+                value={note.fps}
+                onChange={(e) => note.setFps(parseInt(e.target.value))}
               />
             </Box>
             <Box>
@@ -58,7 +56,7 @@ const Menu: React.VFC<Props> = ({ note }) => {
             </Box>
           </Stack>
         </SettingsDrawerButton>
-        <PageButtons note={note} fps={fps} />
+        <PageButtons note={note} />
       </ButtonGroup>
     </Stack>
   );
