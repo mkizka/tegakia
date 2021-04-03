@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Page, emptyPage } from "./pages";
 
 export function splitArrayIntoThree<T>(
@@ -26,12 +26,40 @@ export function useNote(initialState?: Page[]) {
     initialState || loadPages() || [emptyPage()]
   );
   const [pageIndex, setPageIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [fps, setFps] = useState(12);
   const isDrawing = useRef(false);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pages,
     pageIndex
   );
+  useEffect(() => {
+    /**
+     * useEffect内でdepsを更新することで無限ループする
+     * 再生開始の場合
+     * 1. isPlayingが変化
+     * 2. setTimeout発火
+     * 3. pageIndexが変化
+     * 4. setTimeout発火 以降ループ
+     */
+    const playInterval = setTimeout(() => {
+      if (!isPlaying) return;
+      if (pageIndex == pages.length - 1) {
+        setPageIndex(0);
+      } else {
+        setPageIndex(pageIndex + 1);
+      }
+      startDrawing();
+    }, 1000 / fps);
+    return () => clearInterval(playInterval);
+  }, [pageIndex, isPlaying]);
+
+  function play() {
+    setIsPlaying(true);
+  }
+  function stop() {
+    setIsPlaying(false);
+  }
   function setCurrentPage(newPage: Page) {
     setPages([...prevPages, newPage, ...nextPages]);
   }
@@ -80,6 +108,9 @@ export function useNote(initialState?: Page[]) {
     setPageIndex,
     fps,
     setFps,
+    isPlaying,
+    play,
+    stop,
     currentPage,
     setCurrentPage,
     addLine,
