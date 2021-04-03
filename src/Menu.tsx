@@ -8,10 +8,9 @@ import PageButtons from "./PageButtons";
 
 type Props = {
   note: Note;
-  onPageChanged: () => void;
 };
 
-const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
+const Menu: React.VFC<Props> = ({ note }) => {
   const [fps, setFps] = useState(12);
 
   const deletePages = () => {
@@ -59,7 +58,7 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
             </Box>
           </Stack>
         </SettingsDrawerButton>
-        <PageButtons note={note} fps={fps} onPageChanged={onPageChanged} />
+        <PageButtons note={note} fps={fps} />
       </ButtonGroup>
     </Stack>
   );

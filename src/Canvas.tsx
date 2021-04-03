@@ -7,14 +7,13 @@ import { Note } from "./useNote";
 
 type Props = {
   note: Note;
-  isDrawing: React.MutableRefObject<boolean>;
 };
 
 type DrawEventHandler = (
   e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
 ) => void;
 
-const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
+const Canvas: React.VFC<Props> = ({ note }) => {
   const [width, height] = useWindowSize();
 
   const handleMouseDown: DrawEventHandler = (e) => {
@@ -25,13 +24,13 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
     }
     const pos = e.target.getStage()!.getPointerPosition()!;
     note.addLine(pos.x, pos.y);
-    isDrawing.current = true;
+    note.startDrawing();
   };
 
   const handleMouseMove: DrawEventHandler = (e) => {
     e.evt.preventDefault();
     if (e.evt instanceof MouseEvent && e.evt.buttons !== 1) {
-      if (isDrawing.current) {
+      if (note.isDrawing) {
         // isDrawing時に左クリックなしでmousemoveするのは異常であるため
         // 例:左クリックを押したまま画面外にカーソルを移動させ、
         // 　 左クリックを離した後にカーソルをウインドウ内に戻した場合など
@@ -40,7 +39,7 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
       }
       return;
     }
-    if (!isDrawing.current) {
+    if (!note.isDrawing) {
       // isDrawingでない時にmousemoveした場合はmousedownと同じであるため
       // 例:mousedownしたままページを移動した場合など
       handleMouseDown(e);
@@ -57,7 +56,7 @@ const Canvas: React.VFC<Props> = ({ note, isDrawing }) => {
     if (e.evt instanceof TouchEvent && e.evt.touches.length >= 1) {
       return;
     }
-    isDrawing.current = false;
+    note.endDrawing();
     note.savePages();
   };
 

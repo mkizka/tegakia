@@ -25,13 +25,12 @@ const styles = `
 
 const App = () => {
   const note = useNote();
-  const isDrawing = useRef(false);
 
   return (
     <ChakraProvider theme={theme} resetCSS>
       <Global styles={styles} />
-      <Canvas note={note} isDrawing={isDrawing} />
-      <Menu note={note} onPageChanged={() => (isDrawing.current = false)} />
+      <Canvas note={note} />
+      <Menu note={note} />
     </ChakraProvider>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Page, emptyPage } from "./pages";
 
 export function splitArrayIntoThree<T>(
@@ -26,6 +26,7 @@ export function useNote(initialState?: Page[]) {
     initialState || loadPages() || [emptyPage()]
   );
   const [pageIndex, setPageIndex] = useState(0);
+  const isDrawing = useRef(false);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pages,
     pageIndex
@@ -50,12 +51,14 @@ export function useNote(initialState?: Page[]) {
     if (pageIndex > 0) {
       setPageIndex(pageIndex - 1);
     }
+    endDrawing();
   }
   function pushPage() {
     if (pageIndex == pages.length - 1) {
       setPages([...pages, emptyPage()]);
     }
     setPageIndex(pageIndex + 1);
+    endDrawing();
   }
   function savePages() {
     localStorage.setItem("note.pages", JSON.stringify(pages));
@@ -64,6 +67,12 @@ export function useNote(initialState?: Page[]) {
     setPageIndex(0);
     setPages([emptyPage()]);
     localStorage.removeItem("note.pages");
+  }
+  function startDrawing() {
+    isDrawing.current = true;
+  }
+  function endDrawing() {
+    isDrawing.current = false;
   }
   return {
     pageIndex,
@@ -78,6 +87,9 @@ export function useNote(initialState?: Page[]) {
     backPage,
     savePages,
     deletePages,
+    startDrawing,
+    endDrawing,
+    isDrawing: isDrawing.current,
   };
 }
 

@@ -12,10 +12,9 @@ import { Note } from "./useNote";
 type Props = {
   note: Note;
   fps: number;
-  onPageChanged: () => void;
 };
 
-const PageButtons: React.VFC<Props> = ({ note, fps, onPageChanged }) => {
+const PageButtons: React.VFC<Props> = ({ note, fps }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
@@ -34,42 +33,28 @@ const PageButtons: React.VFC<Props> = ({ note, fps, onPageChanged }) => {
       } else {
         note.setPageIndex(note.pageIndex + 1);
       }
-      onPageChanged();
+      note.startDrawing();
     }, 1000 / fps);
     return () => clearInterval(playInterval);
   }, [note.pageIndex, isPlaying]);
-
-  const play = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  const pushPage = () => {
-    note.pushPage();
-    onPageChanged();
-  };
-
-  const backPage = () => {
-    note.backPage();
-    onPageChanged();
-  };
 
   return (
     <>
       <IconButton
         aria-label="前ページへ"
-        onClick={backPage}
+        onClick={() => note.backPage()}
         size="lg"
         icon={<Icon as={BsCaretLeftFill} />}
       />
       <IconButton
         aria-label={isPlaying ? "停止" : "再生"}
-        onClick={play}
+        onClick={() => setIsPlaying(!isPlaying)}
         size="lg"
         icon={isPlaying ? <Icon as={BsStopFill} /> : <Icon as={BsPlayFill} />}
       />
       <IconButton
         aria-label="次ページへ"
-        onClick={pushPage}
+        onClick={() => note.pushPage()}
         size="lg"
         icon={<Icon as={BsCaretRightFill} />}
       />
