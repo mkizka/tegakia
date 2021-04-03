@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IconButton, Icon, Button, ButtonGroup } from "@chakra-ui/react";
+import { IconButton, Icon, Button } from "@chakra-ui/react";
 import {
   BsCaretLeftFill,
   BsStopFill,
@@ -54,7 +54,7 @@ const PageButtons: React.VFC<Props> = ({ note, fps, onPageChanged }) => {
   };
 
   return (
-    <ButtonGroup>
+    <>
       <IconButton
         aria-label="前ページへ"
         onClick={backPage}
@@ -73,10 +73,7 @@ const PageButtons: React.VFC<Props> = ({ note, fps, onPageChanged }) => {
         size="lg"
         icon={<Icon as={BsCaretRightFill} />}
       />
-      <Button size="lg">
-        {note.pageIndex + 1}/{note.pages.length}
-      </Button>
-    </ButtonGroup>
+    </>
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
-import { ChakraProvider, extendTheme, GlobalStyle } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
-import { emptyPage } from "./pages";
 import { useNote } from "./useNote";
 import Menu from "./Menu";
 import Canvas from "./Canvas";
@@ -13,7 +12,9 @@ const theme = extendTheme({
   },
   styles: {
     global: {
-      overscrollBehavior: "none",
+      body: {
+        overscrollBehavior: "none",
+      },
     },
   },
 });
@@ -29,8 +30,8 @@ const App = () => {
   return (
     <ChakraProvider theme={theme} resetCSS>
       <Global styles={styles} />
-      <Menu note={note} onPageChanged={() => (isDrawing.current = false)} />
       <Canvas note={note} isDrawing={isDrawing} />
+      <Menu note={note} onPageChanged={() => (isDrawing.current = false)} />
     </ChakraProvider>
   );
 };

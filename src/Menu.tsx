@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Flex, Stack, Box, FormLabel, Center } from "@chakra-ui/react";
+import { Button, Stack, Box, FormLabel, ButtonGroup } from "@chakra-ui/react";
 
 import { Note } from "./useNote";
 import FpsSelect from "./FpsSelect";
@@ -23,16 +23,20 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
 
   const shouldHide = new URLSearchParams(location.search).has("hideMenu");
   return (
-    <Box
+    <Stack
       position="fixed"
-      zIndex="1"
-      p="0.5rem"
-      w="100%"
-      h="100%"
-      flexDirection="column"
+      w="fit-content"
+      m="auto"
+      bottom="20px"
+      right="0"
+      left="0"
+      opacity="0.95"
       display={shouldHide ? "none" : "flex"}
     >
-      <Flex justifyContent="flex-end">
+      <Button size="sm" w="100%">
+        {note.pageIndex + 1}/{note.pages.length}
+      </Button>
+      <ButtonGroup>
         <SettingsDrawerButton>
           <Stack spacing="24px">
             <Box>
@@ -55,11 +59,9 @@ const Menu: React.VFC<Props> = ({ note, onPageChanged }) => {
             </Box>
           </Stack>
         </SettingsDrawerButton>
-      </Flex>
-      <Center mt="auto" mb="2rem">
         <PageButtons note={note} fps={fps} onPageChanged={onPageChanged} />
-      </Center>
-    </Box>
+      </ButtonGroup>
+    </Stack>
   );
 };
 
