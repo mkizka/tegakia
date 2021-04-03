@@ -61,6 +61,7 @@ export function useNote(initialState?: Page[]) {
     localStorage.setItem("note.pages", JSON.stringify(pages));
   }
   function deletePages() {
+    setPageIndex(0);
     setPages([emptyPage()]);
     localStorage.removeItem("note.pages");
   }
