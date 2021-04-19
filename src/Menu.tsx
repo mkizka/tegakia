@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Stack, Box, FormLabel, ButtonGroup } from "@chakra-ui/react";
 
 import { Note } from "./useNote";
@@ -18,7 +18,8 @@ const Menu: React.VFC<Props> = ({ note }) => {
     }
   };
 
-  const shouldHide = new URLSearchParams(location.search).has("hideMenu");
+  const shouldHide =
+    note.isDrawing || new URLSearchParams(location.search).has("hideMenu");
   return (
     <Stack
       position="fixed"
