@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Page, emptyPage } from "./pages";
 
 export function splitArrayIntoThree<T>(
@@ -28,7 +28,7 @@ export function useNote(initialState?: Page[]) {
   const [pageIndex, setPageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [fps, setFps] = useState(12);
-  const isDrawing = useRef(false);
+  const [isDrawing, setIsDrawing] = useState(false);
   const [prevPages, currentPage, nextPages] = splitArrayIntoThree(
     pages,
     pageIndex
@@ -101,10 +101,10 @@ export function useNote(initialState?: Page[]) {
     localStorage.removeItem("note.pages");
   }
   function startDrawing() {
-    isDrawing.current = true;
+    setIsDrawing(true);
   }
   function endDrawing() {
-    isDrawing.current = false;
+    setIsDrawing(false);
   }
   return {
     pageIndex,
@@ -126,7 +126,7 @@ export function useNote(initialState?: Page[]) {
     deletePages,
     startDrawing,
     endDrawing,
-    isDrawing: isDrawing.current,
+    isDrawing,
   };
 }
 
