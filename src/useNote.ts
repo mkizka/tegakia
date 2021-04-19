@@ -49,7 +49,7 @@ export function useNote(initialState?: Page[]) {
       } else {
         setPageIndex(pageIndex + 1);
       }
-      startDrawing();
+      endDrawing();
     }, 1000 / fps);
     return () => clearInterval(playInterval);
   }, [pageIndex, isPlaying]);
@@ -70,6 +70,9 @@ export function useNote(initialState?: Page[]) {
     });
   }
   function updateLine(x: number, y: number) {
+    if (currentPage.lines.length == 0) {
+      throw Error("線が無い状態でupdateLineが呼ばれています");
+    }
     const currentLine = currentPage.lines.pop()!;
     setCurrentPage({
       lines: [...currentPage.lines, [...currentLine, x, y]],
