@@ -9,17 +9,17 @@ jobs:
         with:
           runTests: false
       - run: yarn test
+      - run: yarn build
       - uses: cypress-io/github-action@v2
         with:
           install: false
-          start: yarn dev
+          start: yarn serve
       - uses: actions/upload-artifact@v2
         if: always()
         with:
           path: |
             cypress/videos
             cypress/snapshots
-      - run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
