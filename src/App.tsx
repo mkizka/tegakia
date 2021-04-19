@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Global } from "@emotion/react";
 
 import { useNote } from "./useNote";
 import Menu from "./Menu";
 import Canvas from "./Canvas";
-import { Global } from "@emotion/react";
+import Debug from "./Debug";
 
 const theme = extendTheme({
   fonts: {
@@ -31,6 +32,7 @@ const App = () => {
       <Global styles={styles} />
       <Canvas note={note} />
       <Menu note={note} />
+      {import.meta.env.DEV && <Debug note={note} />}
     </ChakraProvider>
   );
 };
